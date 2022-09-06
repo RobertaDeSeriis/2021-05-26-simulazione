@@ -143,7 +143,7 @@ public class YelpDao {
 	}
 	
 	public List<Adiacenza> getArchi(String c, int d, Map<String, Business> idMap){
-		String sql = "SELECT distinct b.business_id, AVG(r.stars) AS rec "
+		String sql = "SELECT distinct b.business_id, b.business_name, AVG(r.stars) AS rec "
 				+ "FROM business b, reviews r "
 				+ "WHERE b.business_id=r.business_id "
 				+ "AND b.city=? AND YEAR(r.review_date)=? "
@@ -158,7 +158,7 @@ public class YelpDao {
 			ResultSet res = st.executeQuery();
 			while (res.next()) {
 
-				Adiacenza a = new Adiacenza(res.getString("business_id"), res.getDouble("rec"));
+				Adiacenza a = new Adiacenza(res.getString("business_id"), res.getString("b.business_name"), res.getDouble("rec"));
 				result.add(a);
 			}
 			res.close();
