@@ -35,13 +35,13 @@ public class FXMLController {
     private Button btnPercorso; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbCitta"
-    private ComboBox<?> cmbCitta; // Value injected by FXMLLoader
+    private ComboBox<String> cmbCitta; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtX"
     private TextField txtX; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbAnno"
-    private ComboBox<?> cmbAnno; // Value injected by FXMLLoader
+    private ComboBox<Integer> cmbAnno; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbLocale"
     private ComboBox<?> cmbLocale; // Value injected by FXMLLoader
@@ -56,7 +56,13 @@ public class FXMLController {
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
-
+    	txtResult.clear();
+    	String c= this.cmbCitta.getValue();
+    	Integer d= this.cmbAnno.getValue(); 
+    	
+    	if(c!=null && d!=null) {
+    		txtResult.appendText(model.creaGrafo(c, d));
+    	}
     }
 
     @FXML
@@ -78,5 +84,9 @@ public class FXMLController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	this.cmbCitta.getItems().addAll(model.getCity());
+    	for(int i=2005; i<=2013; i++) {
+    		this.cmbAnno.getItems().add(i);
+    	}
     }
 }
