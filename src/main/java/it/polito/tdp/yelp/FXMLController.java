@@ -7,6 +7,8 @@ package it.polito.tdp.yelp;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.yelp.model.Adiacenza;
+import it.polito.tdp.yelp.model.Business;
 import it.polito.tdp.yelp.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,13 +46,23 @@ public class FXMLController {
     private ComboBox<Integer> cmbAnno; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbLocale"
-    private ComboBox<?> cmbLocale; // Value injected by FXMLLoader
+    private ComboBox<Adiacenza> cmbLocale; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
 
     @FXML
     void doCalcolaPercorso(ActionEvent event) {
+    	double x;
+    	txtResult.clear();
+    	try {
+    		x=Double.parseDouble(this.txtX.getText());
+    		txtResult.appendText("\n"+model.calcolaPercorso(this.cmbLocale.getValue(), 
+    				this.model.getLocaleMigliore(), x));
+    		
+    	}catch(NumberFormatException e) {
+    		e.printStackTrace();
+    	}
     	
     }
 
@@ -60,10 +72,14 @@ public class FXMLController {
     	String c= this.cmbCitta.getValue();
     	Integer d= this.cmbAnno.getValue(); 
     	
+    	
     	if(c!=null && d!=null) {
     		txtResult.appendText(model.creaGrafo(c, d));
+    		this.cmbLocale.getItems().addAll(model.getVertici());
+    		
+        }
     	}
-    }
+    
 
     @FXML
     void doLocaleMigliore(ActionEvent event) {
